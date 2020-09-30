@@ -139,7 +139,11 @@ function addDepartment() {
     })    
 }
 
-function currentDepartList () {
+
+
+
+function addRole() {
+
     connection.query("SELECT * FROM department", (err, data) => {
         if(err) throw err; 
 
@@ -149,35 +153,27 @@ function currentDepartList () {
             let current = data[i];
             currentDept.push(current.name)
         }
-        console.log(currentDept)
-        return currentDept
         
-    })
-}
-
-currentDepartList()
-
-function addRole() {
-    inquirer
-        .prompt ([
-            {
-            name: "inputRole",
-            message: "What role would you like to add?",
-            type: "input",
-            },
-            {
-            name: "inputRoleSalary",
-            message: "What is the salary for this role?",
-            type: "input",
-            },
-            {
-                name:"selectDepartment",
-                message:"What department will this role be apart of?",
+        inquirer
+            .prompt ([
+                {
+                name: "inputRole",
+                message: "What role would you like to add?",
+                type: "input",
+                },
+                {
+                name: "inputRoleSalary",
+                message: "What is the salary for this role?",
+                type: "input",
+                },
+                {
+                name: "selectDepartment",
+                message: "What department will this role be apart of?",
                 type: "list",
-                choices: currentDepartList (),
-                
-            }
-    ]);
+                choices: currentDept,
+                }
+        ]);
+    });
 };
 
 const currentEmployees = () => {
