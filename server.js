@@ -21,6 +21,9 @@ connection.connect(function (err) {
     initialQuestions();
 });
 
+
+
+
 function initialQuestions() {
     inquirer
         .prompt([
@@ -32,17 +35,10 @@ function initialQuestions() {
                     "Add a department",
                     "Add a role",
                     "Add an employee",
-
                     "View the current departments",
                     "View the current roles",
                     "View the current employees",
-
                     "Update the employee roles",
-
-                    "Delete a department",
-                    "Delete a role",
-                    "Delete an employee",
-
                     "Exit"
                 ]
             }
@@ -77,30 +73,6 @@ function initialQuestions() {
                     updateEmplyRole();
                     break;
 
-                case "Update employee managers":
-                    updateEmplyMan();
-                    break;
-
-                case "View employees by manager":
-                    viewEmplyMan();
-                    break;
-
-                case "Delete a department":
-                    deleteDepart();
-                    break;
-
-                case "Delete a role":
-                    deleteRole();
-                    break;
-
-                case "Delete an employee":
-                    deleteEmply();
-                    break;
-
-                case "View current budget for a department":
-                    viewBudget()
-                    break;
-
                 case "exit":
                     connection.end();
                     break;
@@ -115,10 +87,10 @@ const addDepartment = () => {
             message: "What department would you like to add?",
             type: "input",
         }])
+
         .then(function (answer) {
             connection.query("INSERT INTO department (department_name) VALUES (?)", [answer.selectDepartment], (err, data) => {
                 if (err) throw err;
-                currentDepartments()
                 initialQuestions()
             })
         });
@@ -157,6 +129,8 @@ const addEmployee = () => {
 
             .then(function (answer) {
 
+                console.log(answer)
+
                 connection.query("INSERT INTO employee SET ?",
                     {
                         role_id: answer.selectRole,
@@ -165,7 +139,6 @@ const addEmployee = () => {
                     },
                     function (err) {
                         if (err) throw err;
-                        currentEmployees()
                         initialQuestions()
                     }
                 );
@@ -218,7 +191,6 @@ const addRole = () => {
                     },
                     function (err) {
                         if (err) throw err;
-                        currentRoles();
                         initialQuestions();
                     }
 
@@ -259,3 +231,42 @@ const currentRoles = () => {
     })
 
 };
+
+// const updateEmplyRole = () => {
+
+//     connection.query("SELECT * FROM employee;", (err, data) => {
+//         if (err) throw err;
+
+//         seeEmplyChange = []
+//         seeRoleChange = []
+
+//         for (i=0; i <data.length; i++) {
+//             let current = data[i];
+//             seeEmplyChange.push({name:current.first_name, last:current.last_name})
+//             seeRoleChange.push({name:currentB.role_title})
+
+//         }
+
+//     inquirer
+//         .prompt([
+//             {
+//             name:"empolyeeUpdate",
+//             message:"Which employee would you like to change?",
+//             type: "list",
+//             choices: seeEmplyChange
+//             },
+//             {
+//             name:"roleUpdate",
+//             message: "Which role would you like to assign them?",
+//             type:"list",
+//             choices: seeRoleChange
+
+//             }
+//         ])
+
+//         .then(function (answer) {
+//             console.log(answer)
+//         });
+//     })
+// };
+
