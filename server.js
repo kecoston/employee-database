@@ -38,15 +38,11 @@ var connection = mysql.createConnection({
             "View the current employees",
 
             "Update the employee roles",
-            "Update employee managers",
-
-            "View employees by manager",
 
             "Delete a department",
             "Delete a role",
             "Delete an employee",
 
-            "View current budget for a department",
             "Exit"
         ]        
     }
@@ -127,10 +123,46 @@ const addDepartment = () => {
             currentDepartments()
             initialQuestions()
         })
-    })    
-}
+    });    
+};
 
+const addEmployee = () => {
 
+    connection.query("SELECT * FROM role", (err,data) => {
+        if(err) throw err;
+
+        updatedRole = []
+
+        for(i = 0; i <data.length; i++) {
+            let current = data[i];
+            updatedRole.push(current.title)
+        }
+        inquirer
+            .prompt ([
+                {
+                    name: "emplyFirstName",
+                    message: "What is the employees first name?",
+                    type: "input",
+                },
+                {
+                    name: "emplyLastName",
+                    message: "What is the employees last name?",
+                    type: "input",
+                },
+                {
+                    name: "selectRole",
+                    message: "What role will the employee have in the company?",
+                    type: "list",
+                    choices: updatedRole,
+                }
+            ])
+            .then(function (answer) {
+                console.log(answer)
+            
+            });
+    });
+
+};
 
 const addRole = () => {
 
@@ -141,7 +173,7 @@ const addRole = () => {
 
         for(i = 0; i <data.length; i++) {
             let current = data[i];
-            currentDept.push(current.name)
+            currentDept.push(current.department_name)
         }
         
         inquirer
@@ -165,11 +197,10 @@ const addRole = () => {
         ])
 
         .then(function (answer) {
-            var query = "INSERT INTO role, department (name, salary, department_id) VALUES (?);"
-           
-        
-
-        })
+            
+            console.log(answers)
+            
+        });
     }); 
 
 
@@ -207,4 +238,9 @@ const currentRoles = () => {
         initialQuestions()
     })
 
+}
+
+const updatedRole = () => {
+
+    
 }
