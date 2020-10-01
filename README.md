@@ -30,7 +30,7 @@ The user's answers will be stored in the original database, which is run in mysq
 
   ![tables](/assets/kecoston-empydata-tables.jpg)
   
-  ## What I Learn 
+  ## What I Learned 
   This assignment was challenging. I would have loved to have completed the bonus questions but was not able to at this time. This assignment took a lot of thought and planning. This was due to the large amount of data that was being used over several different programs and zones of the coding. This was the first assignment that I worked with mySQL. First, I set up the database, I then set up the inquirer questions and initial prompts, and then I filled in the code between-which displayed the tables in inquirer, and pulled or pushed the data to mySQL. Moving forward, I would like to look at the possibility of using constructor functions and dive into the bonus point questions. 
   
   ## Questions 
