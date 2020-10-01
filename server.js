@@ -129,8 +129,6 @@ const addEmployee = () => {
 
             .then(function (answer) {
 
-                console.log(answer)
-
                 connection.query("INSERT INTO employee SET ?",
                     {
                         role_id: answer.selectRole,
