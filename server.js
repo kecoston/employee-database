@@ -52,7 +52,6 @@ var connection = mysql.createConnection({
     }
 ])
     .then(function(answer) {
-        console.log(answer)
         switch(answer.userChoice) {
         case "Add a department":   
             addDepartment();
@@ -113,17 +112,9 @@ var connection = mysql.createConnection({
     })
   }
 
-  function currentDepartments() {
- 
-    connection.query("SELECT * FROM department", (err, data) => {
-        if(err) throw err; 
-        console.table(data);
-        initialQuestions()
-    })
 
-}
 
-function addDepartment() {
+const addDepartment = () => {
     inquirer
         .prompt ([{
             name: "selectDepartment",
@@ -141,8 +132,7 @@ function addDepartment() {
 
 
 
-
-function addRole() {
+const addRole = () => {
 
     connection.query("SELECT * FROM department", (err, data) => {
         if(err) throw err; 
@@ -172,13 +162,36 @@ function addRole() {
                 type: "list",
                 choices: currentDept,
                 }
-        ]);
-    });
+        ])
+
+        .then(function (answer) {
+            var query = "INSERT INTO role, department (name, salary, department_id) VALUES (?);"
+           
+        
+
+        })
+    }); 
+
+
+
+
 };
+
+
+const currentDepartments = () => {
+ 
+    connection.query("SELECT department.id, department.department_name, role.title FROM department INNER JOIN role ON role.department_id=department.id;", (err, data) => {
+        if(err) throw err; 
+        console.table(data);
+        initialQuestions()
+    })
+
+}
+
 
 const currentEmployees = () => {
    
-    connection.query("SELECT * FROM employee", (err, data) => {
+    connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name FROM employee LEFT JOIN role ON role.id=employee.role_id RIGHT JOIN department ON department.id=role.department_id;", (err, data) => {
         if(err) throw err; 
         console.table(data);
         initialQuestions()
@@ -188,7 +201,7 @@ const currentEmployees = () => {
 
 const currentRoles = () => {
    
-    connection.query("SELECT * FROM role", (err, data) => {
+    connection.query("SELECT role.id, role.title, role.salary, department.department_name, employee.first_name, employee.last_name FROM role JOIN department ON department.id=role.department_id JOIN employee ON employee.role_id=role.id;", (err, data) => {
         if(err) throw err; 
         console.table(data);
         initialQuestions()
