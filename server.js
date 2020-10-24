@@ -89,7 +89,7 @@ const addDepartment = () => {
         }])
 
         .then(function (answer) {
-            connection.query("INSERT INTO department (department_name) VALUES (?)", [answer.selectDepartment], (err, data) => {
+            connection.query("INSERT INTO department (name) VALUES (?)", [answer.selectDepartment], (err, data) => {
                 if (err) throw err;
                 initialQuestions()
             })
@@ -154,7 +154,7 @@ const addRole = () => {
 
         for (i = 0; i < data.length; i++) {
             let current = data[i];
-            seeDepart.push({ name: current.department_name, value: current.id })
+            seeDepart.push({ name: current.name, value: current.id })
         }
 
         inquirer
@@ -202,7 +202,7 @@ const addRole = () => {
 
 const currentDepartments = () => {
 
-    connection.query("SELECT department.id, department.department_name, role.title FROM department INNER JOIN role ON role.department_id=department.id;", (err, data) => {
+    connection.query("SELECT department.id, department.name, role.title FROM department INNER JOIN role ON role.department_id=department.id;", (err, data) => {
         if (err) throw err;
         console.table(data);
         initialQuestions()
@@ -212,7 +212,7 @@ const currentDepartments = () => {
 
 const currentEmployees = () => {
 
-    connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name FROM employee LEFT JOIN role ON role.id=employee.role_id RIGHT JOIN department ON department.id=role.department_id;", (err, data) => {
+    connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name FROM employee LEFT JOIN role ON role.id=employee.role_id RIGHT JOIN department ON department.id=role.department_id;", (err, data) => {
         if (err) throw err;
         console.table(data);
         initialQuestions()
@@ -222,7 +222,7 @@ const currentEmployees = () => {
 
 const currentRoles = () => {
 
-    connection.query("SELECT role.id, role.title, role.salary, department.department_name, employee.first_name, employee.last_name FROM role JOIN department ON department.id=role.department_id JOIN employee ON employee.role_id=role.id;", (err, data) => {
+    connection.query("SELECT role.id, role.title, role.salary, department.name, employee.first_name, employee.last_name FROM role JOIN department ON department.id=role.department_id JOIN employee ON employee.role_id=role.id;", (err, data) => {
         if (err) throw err;
         console.table(data);
         initialQuestions()
